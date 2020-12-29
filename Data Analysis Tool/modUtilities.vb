@@ -253,7 +253,7 @@ Module modUtilities
                 lag(i) = i - MaxTimeLag
                 'move s2 forward one unit
                 Array.Copy(s2, 0, s2, 1, s2.Length - 1)
-                s2(i) = 0
+                s2(0) = 0
             Next
 
         Else 'no zero padding
