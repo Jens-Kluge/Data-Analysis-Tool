@@ -244,10 +244,10 @@ Module modUtilities
             Array.Copy(x1, 0, s1, MaxTimeLag, len)
             Array.Copy(x2, 0, s2, 0, Len)
 
-            cor = New Double(2 * MaxTimeLag) {}
-            lag = New Double(2 * MaxTimeLag) {}
+            cor = New Double(2 * MaxTimeLag + 1) {}
+            lag = New Double(2 * MaxTimeLag + 1) {}
 
-            For i = 0 To 2 * MaxTimeLag - 1
+            For i = 0 To 2 * MaxTimeLag
 
                 cor(i) = Correlation.Pearson(s1, s2)
                 lag(i) = i - MaxTimeLag
