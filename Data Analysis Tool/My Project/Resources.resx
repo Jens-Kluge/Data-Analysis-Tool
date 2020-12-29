@@ -121,16 +121,22 @@
   <data name="imgMaximized" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RefEdit0.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="market-analysis-icon  72px" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\market-analysis-icon  72px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Arrows-Down-icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Arrows-Down-icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="market-analysis-icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\market-analysis-icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="market-analysis-icon  72px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\market-analysis-icon  72px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="imgMinimized" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RefEdit1.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Arrows-Down-icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Arrows-Down-icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="fill-270-icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fill-270-icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icons8_graph_64" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icons8-graph-64.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

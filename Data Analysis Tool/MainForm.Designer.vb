@@ -22,6 +22,7 @@ Partial Class MainForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainForm))
         Me.ListBox1 = New System.Windows.Forms.ListBox()
         Me.btnOK = New System.Windows.Forms.Button()
         Me.btnCancel = New System.Windows.Forms.Button()
@@ -31,7 +32,7 @@ Partial Class MainForm
         '
         Me.ListBox1.FormattingEnabled = True
         Me.ListBox1.ItemHeight = 16
-        Me.ListBox1.Items.AddRange(New Object() {"Fourier Transform", "Correlation"})
+        Me.ListBox1.Items.AddRange(New Object() {"Fourier Transform", "Cross/Autocorrelation"})
         Me.ListBox1.Location = New System.Drawing.Point(30, 37)
         Me.ListBox1.Name = "ListBox1"
         Me.ListBox1.Size = New System.Drawing.Size(206, 292)
@@ -63,6 +64,9 @@ Partial Class MainForm
         Me.Controls.Add(Me.btnCancel)
         Me.Controls.Add(Me.btnOK)
         Me.Controls.Add(Me.ListBox1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.MaximumSize = New System.Drawing.Size(398, 412)
+        Me.MinimumSize = New System.Drawing.Size(398, 412)
         Me.Name = "MainForm"
         Me.Text = "MainForm"
         Me.ResumeLayout(False)

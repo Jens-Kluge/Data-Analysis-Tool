@@ -161,6 +161,7 @@ Partial Class frmFFT
         Me.Controls.Add(Me.btnExtend)
         Me.Controls.Add(Me.btnFFT)
         Me.Controls.Add(Me.ExcelRefedit1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmFFT"
         Me.Text = "frmFFT"
         Me.SplitContainer1.Panel1.ResumeLayout(False)

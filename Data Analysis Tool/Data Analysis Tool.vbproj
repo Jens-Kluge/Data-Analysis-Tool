@@ -313,6 +313,12 @@
   <ItemGroup>
     <None Include="Resources\Arrows-Down-icon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\fill-270-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-graph-64.png" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

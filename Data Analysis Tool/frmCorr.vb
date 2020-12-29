@@ -4,18 +4,22 @@ Imports System.Windows.Forms
 Public Class frmCorr
     Private Sub btnCorr_Click(sender As Object, e As System.EventArgs) Handles btnCorr.Click
 
-        Dim rginput1, rgInput2 As Excel.Range
+        Dim rginput1, rgInput2, rgOutput As Excel.Range
         Dim ok As Boolean
         Dim bAutoCorr As Boolean = False
         Dim objInput1(,), objInput2(,) As Object
         Dim app As Excel.Application = Globals.ThisAddIn.Application
         Dim wsf As Excel.WorksheetFunction = app.WorksheetFunction
 
-
         modUtilities.GetRange(rginput1, ExcelRefedit1.txtAddress.Text, ok)
         If Not ok Then
             MsgBox("Input range 1 is not valid")
             Exit Sub
+        End If
+        'if second input range not entered assume that
+        'its equal to first input range => autocorrelation
+        If ExcelRefedit2.txtAddress.Text = "" Then
+            ExcelRefedit2.txtAddress.Text = ExcelRefedit1.txtAddress.Text
         End If
 
         modUtilities.GetRange(rgInput2, ExcelRefedit2.txtAddress.Text, ok)
@@ -27,6 +31,8 @@ Public Class frmCorr
         If rginput1.Address = rgInput2.Address Then
             bAutoCorr = True
         End If
+
+        modUtilities.GetRange(rgOutput, ExcelRefedit3.txtAddress.Text, ok)
 
         Me.Cursor = Cursors.WaitCursor
         btnCorr.Enabled = False
@@ -55,9 +61,11 @@ Public Class frmCorr
                 Dim outvals() As Double
                 outvals = modUtilities.AutoCorrelation(values1)
                 PlotAutoCorr(outvals)
+                WriteAutoCorrResult(rgOutput, outvals)
             Else
-                lg = modUtilities.CrossCorrelation(values1, values2)
+                lg = modUtilities.CrossCorrelation(values1, values2, chkPadding.Checked, updLag.Value)
                 PlotCorrelation(lg)
+                WriteCrossCorrResult(rgOutput, lg)
             End If
 
         Catch ex As Exception
@@ -66,6 +74,41 @@ Public Class frmCorr
 
         btnCorr.Enabled = True
         Me.Cursor = Cursors.Default
+    End Sub
+
+    ''' <summary>
+    ''' Write autocorrelation results into output range of worksheet
+    ''' </summary>
+    ''' <param name="rg"></param>
+    ''' <param name="vals"></param>
+    Private Sub WriteAutoCorrResult(rg As Excel.Range, vals() As Double)
+        If rg Is Nothing Then Exit Sub
+        rg = rg.Resize(vals.Length + 1, 2)
+        rg(1, 1).Value = "Lag"
+        rg(1, 2).value = "Correlation"
+
+        For i = 1 To vals.Length
+            rg(i + 1, 1) = i
+            rg(i + 1, 2) = vals(i)
+        Next
+    End Sub
+
+    ''' <summary>
+    ''' Write the cross correlation result between the two data series in an excel range
+    ''' </summary>
+    ''' <param name="rg"></param>
+    ''' <param name="lg"></param>
+    Private Sub WriteCrossCorrResult(rg As Excel.Range, lg As LagCorr)
+        If rg Is Nothing Then Exit Sub
+
+        rg = rg.Resize(lg.Corr.Length + 1, 2)
+        rg(1, 1).Value = "Lag"
+        rg(1, 2).value = "Correlation"
+
+        For i = 1 To lg.Corr.Length
+            rg(i + 1, 1) = lg.Lag(i - 1)
+            rg(i + 1, 2) = lg.Corr(i - 1)
+        Next
     End Sub
 
     Private Sub PlotAutoCorr(vals() As Double)
@@ -154,6 +197,9 @@ Public Class frmCorr
             addr = "'" & ExcelRefedit1.ExcelConnector.ActiveSheet.name & "'!" & addr
         End If
         ExcelRefedit1.Address = addr
+
+        UpdateUpDownControl()
+
     End Sub
 
     Private Sub btnExtend2_Click(sender As Object, e As System.EventArgs) Handles btnExtend2.Click
@@ -172,5 +218,22 @@ Public Class frmCorr
             addr = "'" & ExcelRefedit2.ExcelConnector.ActiveSheet.name & "'!" & addr
         End If
         ExcelRefedit2.Address = addr
+
+        UpdateUpDownControl()
+
+    End Sub
+
+    Private Sub ExcelRefedit1_Leave(sender As Object, e As System.EventArgs) Handles ExcelRefedit1.Leave
+        UpdateUpDownControl()
+    End Sub
+
+    Private Sub UpdateUpDownControl()
+        Dim rg As Excel.Range
+        Dim ok As Boolean
+
+        GetRange(rg, ExcelRefedit1.txtAddress.Text, ok)
+        If rg Is Nothing Then Exit Sub
+        updLag.Maximum = rg.Rows.Count
+        updLag.Value = rg.Rows.Count / 2
     End Sub
 End Class
