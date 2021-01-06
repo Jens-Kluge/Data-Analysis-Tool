@@ -1,10 +1,12 @@
 ﻿Public Class MainForm
     Private fmFFT As frmFFT
     Private fmCorr As frmCorr
+    Private fmImagProc As frmImageProc
 
     Private Enum enSelection
         FFT = 0
         CORR = 1
+        IMG_PROC = 2
     End Enum
 
     Private Sub btnOK_Click(sender As Object, e As System.EventArgs) Handles btnOK.Click
@@ -14,6 +16,8 @@
                 ShowForm(fmFFT, GetType(frmFFT))
             Case enSelection.CORR
                 ShowForm(fmCorr, GetType(frmCorr))
+            Case enSelection.IMG_PROC
+                ShowForm(fmImagProc, GetType(frmImageProc))
         End Select
 
     End Sub
@@ -29,6 +33,8 @@
                 ShowForm(fmFFT, GetType(frmFFT))
             Case enSelection.CORR
                 ShowForm(fmCorr, GetType(frmCorr))
+            Case enSelection.IMG_PROC
+                ShowForm(fmImagProc, GetType(frmImageProc))
         End Select
 
     End Sub
