@@ -15,4 +15,5 @@ Note that the fourier amplitude A is scaled with log(1+A) so that the image does
 
 Cross correlation between windspeeds at 40 m and 140 m. Maximum lag is 100 smaples 144 samples correspond to 24h. As expected the maximum correlation is at 0 lag and it is less than 1. Towards greater lags the correlation becomes negative, indicating a negative correlation between day/night.
 
+![cross correlation](https://github.com/Jens-Kluge/Data-Analysis-Tool/blob/master/corr%20wind%20speed%2040-140%20max%20time%20lag%2016600.GIF)
 The same picture for a maximum lag of 16600 samples. Here you see that the correclation has a peak at zero lag and goes down to zero with greater time lags.
