@@ -22,18 +22,22 @@ Public Class frmImageProc
         ofd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures)
         ofd.CheckFileExists = True
 
-        If ofd.ShowDialog() = vbOK Then
-            FilePath = ofd.FileName
-            fs = New FileStream(FilePath, mode:=FileMode.Open)
-            'TODO: convert to BMP for jpg and other image formats
-            img = New OxyPlot.OxyImage(fs)
-            fs.Close()
+        If Not ofd.ShowDialog() = vbOK Then
+            Exit Sub
+        End If
 
-            imgpath = FilePath
+        'open oxyplot image from filestream
+        FilePath = ofd.FileName
+        fs = New FileStream(FilePath, mode:=FileMode.Open)
+        'TODO: convert to BMP for jpg and other image formats
+        img = New OxyPlot.OxyImage(fs)
+        fs.Close()
+        imgpath = FilePath
 
-            'now show image in oxyplot control
-            Dim pm As New PlotModel
-            pm.Annotations.Add(New Annotations.ImageAnnotation With {
+
+        'now show oxyplot image in oxyplot control
+        Dim pm As New PlotModel
+        pm.Annotations.Add(New Annotations.ImageAnnotation With {
                     .ImageSource = img,
                     .X = New PlotLength(0.5, PlotLengthUnit.RelativeToPlotArea),
                     .Y = New PlotLength(0.5, PlotLengthUnit.RelativeToPlotArea),
@@ -44,14 +48,20 @@ Public Class frmImageProc
                     .OffsetX = New PlotLength(0.0, PlotLengthUnit.RelativeToPlotArea),
                     .OffsetY = New PlotLength(0.0, PlotLengthUnit.RelativeToPlotArea)})
 
-            pltImage.Model = pm
-        End If
+
+        pltImage.Model = pm
+
+        SetImageSizes()
+        'delete previous FFT image
+        pbOutput1.Image = Nothing
+        pbFFTPhase.Image = Nothing
 
     End Sub
 
     Private Sub btnFFT_Click(sender As Object, e As System.EventArgs) Handles btnFFT.Click
         Dim fs As FileStream
         Dim bm As Bitmap
+        Dim bmPhase As Bitmap
         Dim maxval As Double
 
         If img Is Nothing Then Exit Sub
@@ -62,6 +72,7 @@ Public Class frmImageProc
             fs = New FileStream(imgpath, FileMode.Open, FileAccess.Read)
             bm = New Bitmap(fs)
             fs.Close()
+
 
             Dim in_row(bm.Width) As mnum.Complex32
             Dim in_col(bm.Height) As mnum.Complex32
@@ -95,7 +106,6 @@ Public Class frmImageProc
                 in_vecarr.SetRow(i, in_row)
             Next
 
-
             'now iterate over the columns to transform the columns
             For j = 0 To bmpData.Width - 1
                 in_col = in_vecarr.Column(j).ToArray
@@ -108,7 +118,7 @@ Public Class frmImageProc
             'shift quadrants
             in_vecarr = FFTShift(in_vecarr)
 
-            'now write the normalized results back into the bitmap
+            'write the normalized amplitude back into the bitmap
             For i = 0 To bmpData.Height - 1
                 For j = 0 To bmpData.Width - 1
                     byteval = CByte((scaleData(in_vecarr(i, j).Magnitude) / maxval) * 255)
@@ -116,13 +126,39 @@ Public Class frmImageProc
                     Marshal.WriteByte(bmpData.Scan0, pixptr, byteval)  'B
                     Marshal.WriteByte(bmpData.Scan0, pixptr + 1, byteval)  'G
                     Marshal.WriteByte(bmpData.Scan0, pixptr + 2, byteval) 'R
+                    Marshal.WriteByte(bmpData.Scan0, pixptr + 3, 255) 'alpha value, set transparency to zero
                 Next
 
             Next
             'System.Runtime.InteropServices.Marshal.Copy(rgbValues, 0, ptr, bytes)
             bm.UnlockBits(bmpData)
 
+            'attach first output bitmap to first picture box
             pbOutput1.Image = bm
+
+            '*****Write the phase information into second output bitmap
+            bmPhase = New Bitmap(bm.Width, bm.Height)
+            Dim rect2 As New Rectangle(0, 0, bmPhase.Width, bmPhase.Height)
+            Dim bmpData2 As System.Drawing.Imaging.BitmapData = bmPhase.LockBits(rect, Drawing.Imaging.ImageLockMode.ReadWrite, Imaging.PixelFormat.Format32bppArgb)
+
+            maxval = in_vecarr.Enumerate().Max(Function(x As mnum.Complex32) Math.Abs(x.Phase))
+
+            For i = 0 To bmPhase.Height - 1
+                For j = 0 To bmPhase.Width - 1
+                    'convert into value btw 0 and 255, then convert into byte
+                    byteval = CByte(Math.Abs(in_vecarr(i, j).Phase) / maxval * 255)
+                    pixptr = (bmpData2.Stride * i) + (4 * j)
+                    Marshal.WriteByte(bmpData2.Scan0, pixptr, byteval)  'B
+                    Marshal.WriteByte(bmpData2.Scan0, pixptr + 1, byteval)  'G
+                    Marshal.WriteByte(bmpData2.Scan0, pixptr + 2, byteval) 'R
+                    Marshal.WriteByte(bmpData2.Scan0, pixptr + 3, 255) 'alpha value, set transparency to zero
+                Next
+
+            Next
+
+            bmPhase.UnlockBits(bmpData2)
+            'attach bitmap to second picture box
+            pbFFTPhase.Image = bmPhase
 
         Catch ex As Exception
             MsgBox(ex.Message)
@@ -177,14 +213,16 @@ Public Class frmImageProc
     End Function
 
     Function isEven(i As Integer)
+
         If i Mod 2 = 0 Then
             Return True
         Else
             Return False
         End If
+
     End Function
 
-    Private Sub btnDim_Click(sender As Object, e As System.EventArgs) Handles btnDim.Click
+    Sub SetImageSizes()
 
         Try
 
@@ -192,6 +230,7 @@ Public Class frmImageProc
             'Me.Width = img.Width + Me.widthDiff
             pltImage.Dock = DockStyle.None
             pbOutput1.Dock = DockStyle.None
+            pbFFTPhase.Dock = DockStyle.None
 
             pltImage.Width = img.Width
             pltImage.Height = img.Height
@@ -199,11 +238,13 @@ Public Class frmImageProc
             pbOutput1.Width = img.Width
             pbOutput1.Height = img.Height
 
+            pbFFTPhase.Width = img.Width
+            pbFFTPhase.Height = img.Height
+
         Catch ex As Exception
             MsgBox(ex.Message)
         End Try
 
     End Sub
-
 
 End Class

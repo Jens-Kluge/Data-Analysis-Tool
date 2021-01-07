@@ -25,14 +25,24 @@ Partial Class frmImageProc
         Me.btnLoadImage = New System.Windows.Forms.Button()
         Me.pltImage = New OxyPlot.WindowsForms.PlotView()
         Me.btnFFT = New System.Windows.Forms.Button()
-        Me.btnDim = New System.Windows.Forms.Button()
         Me.pbOutput1 = New System.Windows.Forms.PictureBox()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.splithorz = New System.Windows.Forms.SplitContainer()
+        Me.pbFFTPhase = New System.Windows.Forms.PictureBox()
         CType(Me.pbOutput1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.SplitContainer2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer2.Panel1.SuspendLayout()
+        Me.SplitContainer2.SuspendLayout()
+        CType(Me.splithorz, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.splithorz.Panel1.SuspendLayout()
+        Me.splithorz.Panel2.SuspendLayout()
+        Me.splithorz.SuspendLayout()
+        CType(Me.pbFFTPhase, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'btnLoadImage
@@ -51,7 +61,7 @@ Partial Class frmImageProc
         Me.pltImage.Location = New System.Drawing.Point(0, 0)
         Me.pltImage.Name = "pltImage"
         Me.pltImage.PanCursor = System.Windows.Forms.Cursors.Hand
-        Me.pltImage.Size = New System.Drawing.Size(447, 360)
+        Me.pltImage.Size = New System.Drawing.Size(435, 246)
         Me.pltImage.TabIndex = 1
         Me.pltImage.Text = "Image Plot"
         Me.pltImage.ZoomHorizontalCursor = System.Windows.Forms.Cursors.SizeWE
@@ -60,37 +70,27 @@ Partial Class frmImageProc
         '
         'btnFFT
         '
-        Me.btnFFT.Location = New System.Drawing.Point(343, 38)
+        Me.btnFFT.Location = New System.Drawing.Point(226, 38)
         Me.btnFFT.Name = "btnFFT"
         Me.btnFFT.Size = New System.Drawing.Size(135, 31)
         Me.btnFFT.TabIndex = 2
         Me.btnFFT.Text = "2D FFT"
         Me.btnFFT.UseVisualStyleBackColor = True
         '
-        'btnDim
-        '
-        Me.btnDim.Location = New System.Drawing.Point(202, 38)
-        Me.btnDim.Name = "btnDim"
-        Me.btnDim.Size = New System.Drawing.Size(135, 30)
-        Me.btnDim.TabIndex = 3
-        Me.btnDim.Text = "Original Size"
-        Me.btnDim.UseVisualStyleBackColor = True
-        '
         'pbOutput1
         '
+        Me.pbOutput1.BackColor = System.Drawing.SystemColors.ButtonHighlight
         Me.pbOutput1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.pbOutput1.Location = New System.Drawing.Point(0, 0)
         Me.pbOutput1.Name = "pbOutput1"
-        Me.pbOutput1.Size = New System.Drawing.Size(468, 360)
+        Me.pbOutput1.Size = New System.Drawing.Size(457, 246)
         Me.pbOutput1.TabIndex = 5
         Me.pbOutput1.TabStop = False
         '
         'SplitContainer1
         '
-        Me.SplitContainer1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.SplitContainer1.Location = New System.Drawing.Point(61, 106)
+        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
         Me.SplitContainer1.Name = "SplitContainer1"
         '
         'SplitContainer1.Panel1
@@ -102,17 +102,60 @@ Partial Class frmImageProc
         '
         Me.SplitContainer1.Panel2.AutoScroll = True
         Me.SplitContainer1.Panel2.Controls.Add(Me.pbOutput1)
-        Me.SplitContainer1.Size = New System.Drawing.Size(919, 360)
-        Me.SplitContainer1.SplitterDistance = 447
+        Me.SplitContainer1.Size = New System.Drawing.Size(896, 246)
+        Me.SplitContainer1.SplitterDistance = 435
         Me.SplitContainer1.TabIndex = 7
+        '
+        'SplitContainer2
+        '
+        Me.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer2.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer2.Name = "SplitContainer2"
+        '
+        'SplitContainer2.Panel1
+        '
+        Me.SplitContainer2.Panel1.AutoScroll = True
+        Me.SplitContainer2.Panel1.Controls.Add(Me.pbFFTPhase)
+        Me.SplitContainer2.Size = New System.Drawing.Size(896, 243)
+        Me.SplitContainer2.SplitterDistance = 436
+        Me.SplitContainer2.TabIndex = 8
+        '
+        'splithorz
+        '
+        Me.splithorz.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.splithorz.Location = New System.Drawing.Point(61, 91)
+        Me.splithorz.Name = "splithorz"
+        Me.splithorz.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'splithorz.Panel1
+        '
+        Me.splithorz.Panel1.Controls.Add(Me.SplitContainer1)
+        '
+        'splithorz.Panel2
+        '
+        Me.splithorz.Panel2.Controls.Add(Me.SplitContainer2)
+        Me.splithorz.Size = New System.Drawing.Size(896, 493)
+        Me.splithorz.SplitterDistance = 246
+        Me.splithorz.TabIndex = 10
+        '
+        'pbFFTPhase
+        '
+        Me.pbFFTPhase.BackColor = System.Drawing.SystemColors.ButtonHighlight
+        Me.pbFFTPhase.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.pbFFTPhase.Location = New System.Drawing.Point(0, 0)
+        Me.pbFFTPhase.Name = "pbFFTPhase"
+        Me.pbFFTPhase.Size = New System.Drawing.Size(436, 243)
+        Me.pbFFTPhase.TabIndex = 0
+        Me.pbFFTPhase.TabStop = False
         '
         'frmImageProc
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1056, 503)
-        Me.Controls.Add(Me.SplitContainer1)
-        Me.Controls.Add(Me.btnDim)
+        Me.ClientSize = New System.Drawing.Size(1056, 638)
+        Me.Controls.Add(Me.splithorz)
         Me.Controls.Add(Me.btnFFT)
         Me.Controls.Add(Me.btnLoadImage)
         Me.Name = "frmImageProc"
@@ -122,6 +165,14 @@ Partial Class frmImageProc
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.ResumeLayout(False)
+        Me.SplitContainer2.Panel1.ResumeLayout(False)
+        CType(Me.SplitContainer2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitContainer2.ResumeLayout(False)
+        Me.splithorz.Panel1.ResumeLayout(False)
+        Me.splithorz.Panel2.ResumeLayout(False)
+        CType(Me.splithorz, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.splithorz.ResumeLayout(False)
+        CType(Me.pbFFTPhase, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -129,7 +180,9 @@ Partial Class frmImageProc
     Friend WithEvents btnLoadImage As Windows.Forms.Button
     Friend WithEvents pltImage As OxyPlot.WindowsForms.PlotView
     Friend WithEvents btnFFT As Windows.Forms.Button
-    Friend WithEvents btnDim As Windows.Forms.Button
     Friend WithEvents pbOutput1 As Windows.Forms.PictureBox
     Friend WithEvents SplitContainer1 As Windows.Forms.SplitContainer
+    Friend WithEvents SplitContainer2 As Windows.Forms.SplitContainer
+    Friend WithEvents splithorz As Windows.Forms.SplitContainer
+    Friend WithEvents pbFFTPhase As Windows.Forms.PictureBox
 End Class
