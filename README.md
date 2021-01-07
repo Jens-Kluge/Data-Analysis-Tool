@@ -10,6 +10,10 @@ VSTO Addin for Excel in vb.net
 
 Note that the fourier amplitude A is scaled with log(1+A) so that the image does not appear black. I am using the Fourier transform of mathnet.numerics libaray. 2D FFT is not implemented for the .net version, so I transform row by row and then column by column using the 1D FFT. Pixels are accessed via marshal.readbyte/writebyte, which replaces the pointer arithmetic in VB.net. The program is able to process arbitrary bitmap sizes, not only powers of two.
 
+![2D FFT2](https://github.com/Jens-Kluge/Data-Analysis-Tool/blob/master/screenshots/cameraman%2C%20amp%20and%20phase.GIF)
+
+Now the display shows the FFT amplitude and phase.
+
 ### Cross Correlation sample
 ![cross correlatioin](https://github.com/Jens-Kluge/Data-Analysis-Tool/blob/master/corr%20windspeed%2040-140%2C%20max%20lag%20100.GIF)
 
