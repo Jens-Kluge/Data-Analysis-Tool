@@ -14,10 +14,10 @@ Note that the fourier amplitude A is scaled with log(1+A) so that the image does
 
 Now the display shows the FFT amplitude and phase.
 
-### Cross Correlation sample
+### Cross-Correlation sample
 ![cross correlatioin](https://github.com/Jens-Kluge/Data-Analysis-Tool/blob/master/corr%20windspeed%2040-140%2C%20max%20lag%20100.GIF)
 
 Cross correlation between windspeeds at 40 m and 140 m. Maximum lag is 100 samples. 144 samples correspond to 24h. As expected the maximum correlation is at zero lag and it is less than 1. Towards greater lags the correlation becomes negative, indicating a negative correlation between day/night.
 
 ![cross correlation](https://github.com/Jens-Kluge/Data-Analysis-Tool/blob/master/corr%20wind%20speed%2040-140%20max%20time%20lag%2016600.GIF)
-The same picture for a maximum lag of 16600 samples. Here you see that the correclation has a peak at zero lag and goes down to zero with greater time lags.
+The same picture for a maximum lag of 16600 samples. Here you see that the cross-correcation has a peak at zero lag and goes down to zero with greater time lags.
