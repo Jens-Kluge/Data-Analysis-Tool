@@ -1,9 +1,9 @@
 ﻿Imports System.Drawing
+Imports System.Diagnostics
 Imports OxyPlot
 Imports System.Windows.Forms
 Imports System.IO
 Imports mnum = MathNet.Numerics
-Imports opencv = Emgu.CV
 Imports System.Runtime.InteropServices
 
 
@@ -105,6 +105,8 @@ Public Class frmImageProc
 
             maxval = in_vecarr.Enumerate().Max(Function(x) mnum.Complex32.Abs(x))
             maxval = scaleData(maxval)
+            'shift quadrants
+            in_vecarr = FFTShift(in_vecarr)
 
             'now write the normalized results back into the bitmap
             For i = 0 To bmpData.Height - 1
@@ -133,6 +135,53 @@ Public Class frmImageProc
     'which would result in a black picture
     Function scaleData(val As Double) As Double
         Return Math.Log(1 + val)
+    End Function
+
+    ''' <summary>
+    ''' Shift The FFT of the Image such that zero frequency is at the center
+    ''' </summary>
+    Public Function FFTShift(FFTmat As mnum.LinearAlgebra.Matrix(Of mnum.Complex32)) As mnum.LinearAlgebra.Matrix(Of mnum.Complex32)
+        Dim i, j As Integer
+        Dim i_shift, j_shift As Integer
+        Dim i_max, j_max As Integer
+
+        i_shift = FFTmat.RowCount
+        If isEven(i_shift) Then
+            i_shift = i_shift / 2
+        Else
+            i_shift = i_shift \ 2 + 1
+        End If
+        i_max = FFTmat.RowCount \ 2
+
+        j_shift = FFTmat.ColumnCount
+
+        If isEven(j_shift) Then
+            j_shift = j_shift / 2
+        Else
+            j_shift = j_shift \ 2 + 1
+        End If
+        j_max = FFTmat.ColumnCount \ 2
+
+        Dim FFTShifted As New mnum.LinearAlgebra.Complex32.DenseMatrix(FFTmat.RowCount, FFTmat.ColumnCount)
+
+        For i = 0 To i_max - 1
+            For j = 0 To j_max - 1
+                FFTShifted(i + i_shift, j + j_shift) = FFTmat(i, j)
+                FFTShifted(i, j) = FFTmat(i + i_shift, j + j_shift)
+                FFTShifted(i + i_shift, j) = FFTmat(i, j + j_shift)
+                FFTShifted(i, j + j_shift) = FFTmat(i + i_shift, j)
+            Next
+        Next
+
+        Return FFTShifted
+    End Function
+
+    Function isEven(i As Integer)
+        If i Mod 2 = 0 Then
+            Return True
+        Else
+            Return False
+        End If
     End Function
 
     Private Sub btnDim_Click(sender As Object, e As System.EventArgs) Handles btnDim.Click
