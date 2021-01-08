@@ -66,11 +66,17 @@ Public Class frm2DFFt
 
     Private Sub btnFFT_Click(sender As Object, e As System.EventArgs) Handles btnFFT.Click
 
+        btnFFT.Enabled = False
+        Me.Cursor = Cursors.WaitCursor
+
         If chkRGB.Checked Then
             FFT_RGBchannels()
         Else
             FFT_Grayscale()
         End If
+
+        Me.Cursor = Cursors.Default
+        btnFFT.Enabled = True
 
     End Sub
 
@@ -441,11 +447,17 @@ Public Class frm2DFFt
 
     Private Sub btnInvFFT_Click(sender As Object, e As System.EventArgs) Handles btnInvFFT.Click
 
+        btnInvFFT.Enabled = False
+        Me.Cursor = Cursors.WaitCursor
+
         If chkRGB.Checked Then
             INV_FFT_RGBchannels()
         Else
             INV_FFT_grayscale()
         End If
+
+        Me.Cursor = Cursors.Default
+        btnInvFFT.Enabled = True
 
     End Sub
 
