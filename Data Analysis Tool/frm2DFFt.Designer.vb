@@ -32,6 +32,7 @@ Partial Class frm2DFFt
         Me.pbInvFFT = New System.Windows.Forms.PictureBox()
         Me.splithorz = New System.Windows.Forms.SplitContainer()
         Me.btnInvFFT = New System.Windows.Forms.Button()
+        Me.chkRGB = New System.Windows.Forms.CheckBox()
         CType(Me.pbOutput1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -178,11 +179,22 @@ Partial Class frm2DFFt
         Me.btnInvFFT.Text = "Inverse FFT"
         Me.btnInvFFT.UseVisualStyleBackColor = True
         '
+        'chkRGB
+        '
+        Me.chkRGB.AutoSize = True
+        Me.chkRGB.Location = New System.Drawing.Point(584, 38)
+        Me.chkRGB.Name = "chkRGB"
+        Me.chkRGB.Size = New System.Drawing.Size(121, 21)
+        Me.chkRGB.TabIndex = 12
+        Me.chkRGB.Text = "RGB channels"
+        Me.chkRGB.UseVisualStyleBackColor = True
+        '
         'frm2DFFt
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1056, 638)
+        Me.Controls.Add(Me.chkRGB)
         Me.Controls.Add(Me.btnInvFFT)
         Me.Controls.Add(Me.splithorz)
         Me.Controls.Add(Me.btnFFT)
@@ -205,6 +217,7 @@ Partial Class frm2DFFt
         CType(Me.splithorz, System.ComponentModel.ISupportInitialize).EndInit()
         Me.splithorz.ResumeLayout(False)
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
@@ -218,4 +231,5 @@ Partial Class frm2DFFt
     Friend WithEvents pbFFTPhase As Windows.Forms.PictureBox
     Friend WithEvents btnInvFFT As Windows.Forms.Button
     Friend WithEvents pbInvFFT As Windows.Forms.PictureBox
+    Friend WithEvents chkRGB As Windows.Forms.CheckBox
 End Class
