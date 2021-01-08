@@ -13,7 +13,7 @@ VSTO Addin for Excel in vb.net
 
 The fourier amplitude A is scaled with log(1+A) ("dyamic range compression") so that the image does not appear black. I am using the Fourier transform of mathnet.numerics libaray. 2D FFT is not implemented for the .net version, so I transform row by row and then column by column using the 1D FFT. Pixels are accessed via marshal.readbyte/writebyte, which replaces the pointer arithmetic in VB.net. 
 
-The 1D FFT from the mathnet library is able to process arbitrary vector sizes, not only powers of two. According to my information this applies to a vector length of about 41000. This would mean that the program can process arbitrary sized bitmaps as long as the side length does not exceed 41000.
+The 1D FFT from the mathnet library is able to process arbitrary vector sizes, not only powers of two. According to my information this applies to a vector length of up to 41000. This would mean that the program can process arbitrary sized bitmaps as long as the side length does not exceed 41000.
 
 ### Cross-Correlation sample
 ![cross correlatioin](https://github.com/Jens-Kluge/Data-Analysis-Tool/blob/master/corr%20windspeed%2040-140%2C%20max%20lag%20100.GIF)
