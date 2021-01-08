@@ -1,7 +1,7 @@
 ﻿Public Class MainForm
     Private fmFFT As frmFFT
     Private fmCorr As frmCorr
-    Private fmImagProc As frmImageProc
+    Private fmImagProc As frm2DFFt
 
     Private Enum enSelection
         FFT = 0
@@ -17,7 +17,7 @@
             Case enSelection.CORR
                 ShowForm(fmCorr, GetType(frmCorr))
             Case enSelection.IMG_PROC
-                ShowForm(fmImagProc, GetType(frmImageProc))
+                ShowForm(fmImagProc, GetType(frm2DFFt))
         End Select
 
     End Sub
@@ -34,7 +34,7 @@
             Case enSelection.CORR
                 ShowForm(fmCorr, GetType(frmCorr))
             Case enSelection.IMG_PROC
-                ShowForm(fmImagProc, GetType(frmImageProc))
+                ShowForm(fmImagProc, GetType(frm2DFFt))
         End Select
 
     End Sub

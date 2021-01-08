@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class frmImageProc
+Partial Class frm2DFFt
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -28,8 +28,10 @@ Partial Class frmImageProc
         Me.pbOutput1 = New System.Windows.Forms.PictureBox()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
-        Me.splithorz = New System.Windows.Forms.SplitContainer()
         Me.pbFFTPhase = New System.Windows.Forms.PictureBox()
+        Me.pbInvFFT = New System.Windows.Forms.PictureBox()
+        Me.splithorz = New System.Windows.Forms.SplitContainer()
+        Me.btnInvFFT = New System.Windows.Forms.Button()
         CType(Me.pbOutput1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -37,12 +39,14 @@ Partial Class frmImageProc
         Me.SplitContainer1.SuspendLayout()
         CType(Me.SplitContainer2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer2.Panel1.SuspendLayout()
+        Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.pbFFTPhase, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pbInvFFT, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.splithorz, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.splithorz.Panel1.SuspendLayout()
         Me.splithorz.Panel2.SuspendLayout()
         Me.splithorz.SuspendLayout()
-        CType(Me.pbFFTPhase, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'btnLoadImage
@@ -116,9 +120,34 @@ Partial Class frmImageProc
         '
         Me.SplitContainer2.Panel1.AutoScroll = True
         Me.SplitContainer2.Panel1.Controls.Add(Me.pbFFTPhase)
+        '
+        'SplitContainer2.Panel2
+        '
+        Me.SplitContainer2.Panel2.AutoScroll = True
+        Me.SplitContainer2.Panel2.Controls.Add(Me.pbInvFFT)
         Me.SplitContainer2.Size = New System.Drawing.Size(896, 243)
         Me.SplitContainer2.SplitterDistance = 436
         Me.SplitContainer2.TabIndex = 8
+        '
+        'pbFFTPhase
+        '
+        Me.pbFFTPhase.BackColor = System.Drawing.SystemColors.ButtonHighlight
+        Me.pbFFTPhase.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.pbFFTPhase.Location = New System.Drawing.Point(0, 0)
+        Me.pbFFTPhase.Name = "pbFFTPhase"
+        Me.pbFFTPhase.Size = New System.Drawing.Size(436, 243)
+        Me.pbFFTPhase.TabIndex = 0
+        Me.pbFFTPhase.TabStop = False
+        '
+        'pbInvFFT
+        '
+        Me.pbInvFFT.BackColor = System.Drawing.SystemColors.ButtonHighlight
+        Me.pbInvFFT.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.pbInvFFT.Location = New System.Drawing.Point(0, 0)
+        Me.pbInvFFT.Name = "pbInvFFT"
+        Me.pbInvFFT.Size = New System.Drawing.Size(456, 243)
+        Me.pbInvFFT.TabIndex = 0
+        Me.pbInvFFT.TabStop = False
         '
         'splithorz
         '
@@ -140,25 +169,25 @@ Partial Class frmImageProc
         Me.splithorz.SplitterDistance = 246
         Me.splithorz.TabIndex = 10
         '
-        'pbFFTPhase
+        'btnInvFFT
         '
-        Me.pbFFTPhase.BackColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.pbFFTPhase.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.pbFFTPhase.Location = New System.Drawing.Point(0, 0)
-        Me.pbFFTPhase.Name = "pbFFTPhase"
-        Me.pbFFTPhase.Size = New System.Drawing.Size(436, 243)
-        Me.pbFFTPhase.TabIndex = 0
-        Me.pbFFTPhase.TabStop = False
+        Me.btnInvFFT.Location = New System.Drawing.Point(391, 38)
+        Me.btnInvFFT.Name = "btnInvFFT"
+        Me.btnInvFFT.Size = New System.Drawing.Size(135, 31)
+        Me.btnInvFFT.TabIndex = 11
+        Me.btnInvFFT.Text = "Inverse FFT"
+        Me.btnInvFFT.UseVisualStyleBackColor = True
         '
-        'frmImageProc
+        'frm2DFFt
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1056, 638)
+        Me.Controls.Add(Me.btnInvFFT)
         Me.Controls.Add(Me.splithorz)
         Me.Controls.Add(Me.btnFFT)
         Me.Controls.Add(Me.btnLoadImage)
-        Me.Name = "frmImageProc"
+        Me.Name = "frm2DFFt"
         Me.Text = "Image data analysis"
         CType(Me.pbOutput1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.Panel1.ResumeLayout(False)
@@ -166,13 +195,15 @@ Partial Class frmImageProc
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.ResumeLayout(False)
         Me.SplitContainer2.Panel1.ResumeLayout(False)
+        Me.SplitContainer2.Panel2.ResumeLayout(False)
         CType(Me.SplitContainer2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.pbFFTPhase, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pbInvFFT, System.ComponentModel.ISupportInitialize).EndInit()
         Me.splithorz.Panel1.ResumeLayout(False)
         Me.splithorz.Panel2.ResumeLayout(False)
         CType(Me.splithorz, System.ComponentModel.ISupportInitialize).EndInit()
         Me.splithorz.ResumeLayout(False)
-        CType(Me.pbFFTPhase, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -185,4 +216,6 @@ Partial Class frmImageProc
     Friend WithEvents SplitContainer2 As Windows.Forms.SplitContainer
     Friend WithEvents splithorz As Windows.Forms.SplitContainer
     Friend WithEvents pbFFTPhase As Windows.Forms.PictureBox
+    Friend WithEvents btnInvFFT As Windows.Forms.Button
+    Friend WithEvents pbInvFFT As Windows.Forms.PictureBox
 End Class

@@ -364,10 +364,10 @@
     <Compile Include="ExcelRefedit.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="frmImageProc.Designer.vb">
-      <DependentUpon>frmImageProc.vb</DependentUpon>
+    <Compile Include="frm2DFFt.Designer.vb">
+      <DependentUpon>frm2DFFt.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmImageProc.vb">
+    <Compile Include="frm2DFFt.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmCorr.Designer.vb">
@@ -403,8 +403,8 @@
     <EmbeddedResource Include="ExcelRefedit.resx">
       <DependentUpon>ExcelRefedit.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmImageProc.resx">
-      <DependentUpon>frmImageProc.vb</DependentUpon>
+    <EmbeddedResource Include="frm2DFFt.resx">
+      <DependentUpon>frm2DFFt.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmCorr.resx">
       <DependentUpon>frmCorr.vb</DependentUpon>

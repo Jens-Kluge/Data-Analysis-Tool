@@ -7,9 +7,10 @@ Imports mnum = MathNet.Numerics
 Imports System.Runtime.InteropServices
 
 
-Public Class frmImageProc
-    Private img As OxyPlot.OxyImage
-    Private imgpath As String = ""
+Public Class frm2DFFt
+    Private m_img As OxyPlot.OxyImage
+    Private m_imgpath As String = ""
+    Private m_FFT_result As mnum.LinearAlgebra.Complex32.Matrix
 
     Private Sub btnLoadImage_Click(sender As Object, e As System.EventArgs) Handles btnLoadImage.Click
         Dim ofd As New OpenFileDialog
@@ -30,15 +31,15 @@ Public Class frmImageProc
         FilePath = ofd.FileName
         fs = New FileStream(FilePath, mode:=FileMode.Open)
         'TODO: convert to BMP for jpg and other image formats
-        img = New OxyPlot.OxyImage(fs)
+        m_img = New OxyPlot.OxyImage(fs)
         fs.Close()
-        imgpath = FilePath
+        m_imgpath = FilePath
 
 
         'now show oxyplot image in oxyplot control
         Dim pm As New PlotModel
         pm.Annotations.Add(New Annotations.ImageAnnotation With {
-                    .ImageSource = img,
+                    .ImageSource = m_img,
                     .X = New PlotLength(0.5, PlotLengthUnit.RelativeToPlotArea),
                     .Y = New PlotLength(0.5, PlotLengthUnit.RelativeToPlotArea),
                     .Width = New PlotLength(1.0, PlotLengthUnit.RelativeToPlotArea),
@@ -64,12 +65,12 @@ Public Class frmImageProc
         Dim bmPhase As Bitmap
         Dim maxval As Double
 
-        If img Is Nothing Then Exit Sub
+        If m_img Is Nothing Then Exit Sub
 
 
         'byteArrayIn = img.GetData
         Try
-            fs = New FileStream(imgpath, FileMode.Open, FileAccess.Read)
+            fs = New FileStream(m_imgpath, FileMode.Open, FileAccess.Read)
             bm = New Bitmap(fs)
             fs.Close()
 
@@ -113,6 +114,11 @@ Public Class frmImageProc
                 in_vecarr.SetColumn(j, in_col)
             Next
 
+            'store the result in member variable
+            m_FFT_result = in_vecarr.Clone
+
+            '***** Prepare data for plotting and write the results into the bitmaps
+            '1) Write amplitude data into first bitmap
             maxval = in_vecarr.Enumerate().Max(Function(x) mnum.Complex32.Abs(x))
             maxval = scaleData(maxval)
             'shift quadrants
@@ -136,7 +142,7 @@ Public Class frmImageProc
             'attach first output bitmap to first picture box
             pbOutput1.Image = bm
 
-            '*****Write the phase information into second output bitmap
+            '2) Write the phase information into second output bitmap
             bmPhase = New Bitmap(bm.Width, bm.Height)
             Dim rect2 As New Rectangle(0, 0, bmPhase.Width, bmPhase.Height)
             Dim bmpData2 As System.Drawing.Imaging.BitmapData = bmPhase.LockBits(rect, Drawing.Imaging.ImageLockMode.ReadWrite, Imaging.PixelFormat.Format32bppArgb)
@@ -153,7 +159,6 @@ Public Class frmImageProc
                     Marshal.WriteByte(bmpData2.Scan0, pixptr + 2, byteval) 'R
                     Marshal.WriteByte(bmpData2.Scan0, pixptr + 3, 255) 'alpha value, set transparency to zero
                 Next
-
             Next
 
             bmPhase.UnlockBits(bmpData2)
@@ -176,6 +181,7 @@ Public Class frmImageProc
     ''' <summary>
     ''' Shift The FFT of the Image such that zero frequency is at the center
     ''' </summary>
+    ''' input: matrix with FFT coefficients. output: matrix with shifted 
     Public Function FFTShift(FFTmat As mnum.LinearAlgebra.Matrix(Of mnum.Complex32)) As mnum.LinearAlgebra.Matrix(Of mnum.Complex32)
         Dim i, j As Integer
         Dim i_shift, j_shift As Integer
@@ -231,15 +237,19 @@ Public Class frmImageProc
             pltImage.Dock = DockStyle.None
             pbOutput1.Dock = DockStyle.None
             pbFFTPhase.Dock = DockStyle.None
+            pbInvFFT.Dock = DockStyle.None
 
-            pltImage.Width = img.Width
-            pltImage.Height = img.Height
+            pltImage.Width = m_img.Width
+            pltImage.Height = m_img.Height
 
-            pbOutput1.Width = img.Width
-            pbOutput1.Height = img.Height
+            pbOutput1.Width = m_img.Width
+            pbOutput1.Height = m_img.Height
 
-            pbFFTPhase.Width = img.Width
-            pbFFTPhase.Height = img.Height
+            pbFFTPhase.Width = m_img.Width
+            pbFFTPhase.Height = m_img.Height
+
+            pbInvFFT.Width = m_img.Width
+            pbInvFFT.Height = m_img.Height
 
         Catch ex As Exception
             MsgBox(ex.Message)
@@ -247,4 +257,58 @@ Public Class frmImageProc
 
     End Sub
 
+    Private Sub btnInvFFT_Click(sender As Object, e As System.EventArgs) Handles btnInvFFT.Click
+
+        If m_FFT_result Is Nothing Then Exit Sub
+
+        Dim bm As Bitmap = New Bitmap(m_img.Width, m_img.Height)
+        Dim in_row(bm.Width) As mnum.Complex32
+        Dim in_col(bm.Height) As mnum.Complex32
+
+        Dim invFFTarr As mnum.LinearAlgebra.Complex32.Matrix
+
+
+        Dim rect As New Rectangle(0, 0, bm.Width, bm.Height)
+        Dim bmpData As System.Drawing.Imaging.BitmapData = bm.LockBits(rect, Drawing.Imaging.ImageLockMode.ReadWrite, Imaging.PixelFormat.Format32bppArgb)
+        Dim bytes As Integer = Math.Abs(bmpData.Stride) * bm.Height
+        Dim rgbValues(bytes - 1) As Byte
+        Dim ptr As IntPtr = bmpData.Scan0
+        Dim pixptr As Integer
+        Dim byteval As Byte
+
+        invFFTarr = m_FFT_result.Clone()
+        'iterate over the rows to read in and transform the rows
+        For i = 0 To bmpData.Height - 1
+            in_row = invFFTarr.Row(i).ToArray
+            MathNet.Numerics.IntegralTransforms.Fourier.Inverse(in_row)
+            invFFTarr.SetRow(i, in_row)
+        Next
+
+        'now iterate over the columns to transform the columns
+        For j = 0 To bmpData.Width - 1
+            in_col = invFFTarr.Column(j).ToArray
+            MathNet.Numerics.IntegralTransforms.Fourier.Inverse(in_col)
+            invFFTarr.SetColumn(j, in_col)
+        Next
+
+        Dim maxval As Double
+        maxval = invFFTarr.Enumerate().Max(Function(x As mnum.Complex32) x.Magnitude)
+
+        For i = 0 To bm.Height - 1
+            For j = 0 To bm.Width - 1
+                'convert into value btw 0 and 255, then convert into byte
+                byteval = CByte(Math.Abs(invFFTarr(i, j).Magnitude) / maxval * 255)
+                pixptr = (bmpData.Stride * i) + (4 * j)
+                Marshal.WriteByte(bmpData.Scan0, pixptr, byteval)  'B
+                Marshal.WriteByte(bmpData.Scan0, pixptr + 1, byteval)  'G
+                Marshal.WriteByte(bmpData.Scan0, pixptr + 2, byteval) 'R
+                Marshal.WriteByte(bmpData.Scan0, pixptr + 3, 255) 'alpha value, set transparency to zero
+            Next
+        Next
+
+        bm.UnlockBits(bmpData)
+        'attach bitmap to second picture box
+        pbInvFFT.Image = bm
+
+    End Sub
 End Class
