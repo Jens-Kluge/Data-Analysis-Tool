@@ -6,7 +6,7 @@ VSTO Addin for Excel in vb.net
 - 2D FFT of a bitmap, data is read in from a bitmap or a png image
 
 ### 2D Fourier transform sample
-![2D FFT](https://github.com/Jens-Kluge/Data-Analysis-Tool/blob/master/lena_fft.gif)
+![2D FFT](https://github.com/Jens-Kluge/Data-Analysis-Tool/blob/master/screenshots/lena_fft.gif)
 
 Note that the fourier amplitude A is scaled with log(1+A) so that the image does not appear black. I am using the Fourier transform of mathnet.numerics libaray. 2D FFT is not implemented for the .net version, so I transform row by row and then column by column using the 1D FFT. Pixels are accessed via marshal.readbyte/writebyte, which replaces the pointer arithmetic in VB.net. The program is able to process arbitrary bitmap sizes, not only powers of two.
 
