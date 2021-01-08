@@ -8,7 +8,9 @@ VSTO Addin for Excel in vb.net
 ### 2D Fourier transform sample
 ![2D FFT](https://github.com/Jens-Kluge/Data-Analysis-Tool/blob/master/screenshots/lena_fft.gif)
 
-Note that the fourier amplitude A is scaled with log(1+A) so that the image does not appear black. I am using the Fourier transform of mathnet.numerics libaray. 2D FFT is not implemented for the .net version, so I transform row by row and then column by column using the 1D FFT. Pixels are accessed via marshal.readbyte/writebyte, which replaces the pointer arithmetic in VB.net. The program is able to process arbitrary bitmap sizes, not only powers of two.
+The fourier amplitude A is scaled with log(1+A) ("dyamic range compression") so that the image does not appear black. I am using the Fourier transform of mathnet.numerics libaray. 2D FFT is not implemented for the .net version, so I transform row by row and then column by column using the 1D FFT. Pixels are accessed via marshal.readbyte/writebyte, which replaces the pointer arithmetic in VB.net. 
+
+The 1D FFT from the mathnet library is able to process arbitrary vector, not only powers of two. I read that this applies to a vector length of about 41000. This would mean that the program can process arbitrary sized bitmaps as long as the side lenght does not exceed 41000.
 
 ![2D FFT2](https://github.com/Jens-Kluge/Data-Analysis-Tool/blob/master/screenshots/cameraman%2C%20amp%20and%20phase.GIF)
 
