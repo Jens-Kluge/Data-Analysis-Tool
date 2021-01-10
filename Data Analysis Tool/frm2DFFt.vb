@@ -1,6 +1,5 @@
 ﻿Imports System.Drawing
 Imports System.Diagnostics
-Imports OxyPlot
 Imports System.Windows.Forms
 Imports System.IO
 Imports mnum = MathNet.Numerics
@@ -8,7 +7,7 @@ Imports System.Runtime.InteropServices
 
 
 Public Class frm2DFFt
-    Private m_img As OxyPlot.OxyImage
+    Private m_img As Image
     Private m_imgpath As String = ""
     'member variable to hold result of grayscale image
     Private m_FFT_result As mnum.LinearAlgebra.Complex32.Matrix
@@ -24,43 +23,34 @@ Public Class frm2DFFt
         Dim fs As FileStream
 
         ofd.Title = "Open an Image File" 'Set the title name of the OpenDialog Box  
-        ofd.Filter = "Image Files (*.bmp, *.png)|*.bmp;*.png"
+        ofd.Filter = "Bitmap images|*.bmp|GIF images|*.gif|JPEG images|*.jpg; *.jpeg; *.jpe; *.jif; *.jfif; *.jfi|PNG images|*.png|TIFF images|*.tiff; *.tif|All files|*.*"
         ofd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures)
         ofd.CheckFileExists = True
 
         If Not ofd.ShowDialog() = vbOK Then
             Exit Sub
         End If
+        Try
+            'open oxyplot image from filestream
+            FilePath = ofd.FileName
+            fs = New FileStream(FilePath, mode:=FileMode.Open)
+            m_img = Image.FromStream(fs)
+            m_imgpath = FilePath
+            fs.Close()
 
-        'open oxyplot image from filestream
-        FilePath = ofd.FileName
-        fs = New FileStream(FilePath, mode:=FileMode.Open)
-        'TODO: convert to BMP for jpg and other image formats
-        m_img = New OxyPlot.OxyImage(fs)
-        fs.Close()
-        m_imgpath = FilePath
+            'delete previous FFT images
+            pbImage.Image = Nothing
+            pbOutput1.Image = Nothing
+            pbFFTPhase.Image = Nothing
+            pbInvFFT.Image = Nothing
 
+            pbImage.Image = m_img
+            SetImageSizes()
 
-        'now show oxyplot image in oxyplot control
-        Dim pm As New PlotModel
-        pm.Annotations.Add(New Annotations.ImageAnnotation With {
-                    .ImageSource = m_img,
-                    .X = New PlotLength(0.5, PlotLengthUnit.RelativeToPlotArea),
-                    .Y = New PlotLength(0.5, PlotLengthUnit.RelativeToPlotArea),
-                    .Width = New PlotLength(1.0, PlotLengthUnit.RelativeToPlotArea),
-                    .Height = New PlotLength(1.0, PlotLengthUnit.RelativeToPlotArea),
-                    .Opacity = 1,
-                    .Interpolate = False,
-                    .OffsetX = New PlotLength(0.0, PlotLengthUnit.RelativeToPlotArea),
-                    .OffsetY = New PlotLength(0.0, PlotLengthUnit.RelativeToPlotArea)})
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
 
-
-        pltImage.Model = pm
-
-        SetImageSizes()
-        'delete previous FFT image
-        pbOutput1.Image = Nothing
-        pbFFTPhase.Image = Nothing
 
     End Sub
 
@@ -69,11 +59,15 @@ Public Class frm2DFFt
         btnFFT.Enabled = False
         Me.Cursor = Cursors.WaitCursor
 
-        If chkRGB.Checked Then
-            FFT_RGBchannels()
-        Else
-            FFT_Grayscale()
-        End If
+        Try
+            If chkRGB.Checked Then
+                FFT_RGBchannels()
+            Else
+                FFT_Grayscale()
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
 
         Me.Cursor = Cursors.Default
         btnFFT.Enabled = True
@@ -422,13 +416,13 @@ Public Class frm2DFFt
 
             'Me.Height = img.Height + Me.heightDiff
             'Me.Width = img.Width + Me.widthDiff
-            pltImage.Dock = DockStyle.None
+            pbImage.Dock = DockStyle.None
             pbOutput1.Dock = DockStyle.None
             pbFFTPhase.Dock = DockStyle.None
             pbInvFFT.Dock = DockStyle.None
 
-            pltImage.Width = m_img.Width
-            pltImage.Height = m_img.Height
+            pbImage.Width = m_img.Width
+            pbImage.Height = m_img.Height
 
             pbOutput1.Width = m_img.Width
             pbOutput1.Height = m_img.Height
@@ -449,12 +443,15 @@ Public Class frm2DFFt
 
         btnInvFFT.Enabled = False
         Me.Cursor = Cursors.WaitCursor
-
-        If chkRGB.Checked Then
-            INV_FFT_RGBchannels()
-        Else
-            INV_FFT_grayscale()
-        End If
+        Try
+            If chkRGB.Checked Then
+                INV_FFT_RGBchannels()
+            Else
+                INV_FFT_grayscale()
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
 
         Me.Cursor = Cursors.Default
         btnInvFFT.Enabled = True
@@ -601,4 +598,26 @@ Public Class frm2DFFt
         pbInvFFT.Image = bm
     End Sub
 
+
+    Private Function GetRGBValues(bmp As Bitmap) As Byte()
+
+        'Lock the bitmap's bits. 
+        Dim rect As Rectangle = New Rectangle(0, 0, bmp.Width, bmp.Height)
+        Dim bmpData As Imaging.BitmapData = bmp.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadOnly, Imaging.PixelFormat.Format32bppArgb)
+
+        'Get the address of the first line.
+        Dim ptr As IntPtr = bmpData.Scan0
+
+        'Declare an array to hold the bytes of the bitmap.
+        Dim bytes As Integer = bmpData.Stride * bmp.Height
+        Dim rgbValues() As Byte = New Byte(bytes) {}
+
+        'Copy the RGB values into the array.
+        Marshal.Copy(ptr, rgbValues, 0, bytes)
+
+        bmp.UnlockBits(bmpData)
+
+        Return rgbValues
+
+    End Function
 End Class

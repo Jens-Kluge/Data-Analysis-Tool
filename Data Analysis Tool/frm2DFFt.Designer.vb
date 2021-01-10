@@ -23,7 +23,6 @@ Partial Class frm2DFFt
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.btnLoadImage = New System.Windows.Forms.Button()
-        Me.pltImage = New OxyPlot.WindowsForms.PlotView()
         Me.btnFFT = New System.Windows.Forms.Button()
         Me.pbOutput1 = New System.Windows.Forms.PictureBox()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
@@ -33,6 +32,7 @@ Partial Class frm2DFFt
         Me.splithorz = New System.Windows.Forms.SplitContainer()
         Me.btnInvFFT = New System.Windows.Forms.Button()
         Me.chkRGB = New System.Windows.Forms.CheckBox()
+        Me.pbImage = New System.Windows.Forms.PictureBox()
         CType(Me.pbOutput1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -48,6 +48,7 @@ Partial Class frm2DFFt
         Me.splithorz.Panel1.SuspendLayout()
         Me.splithorz.Panel2.SuspendLayout()
         Me.splithorz.SuspendLayout()
+        CType(Me.pbImage, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'btnLoadImage
@@ -58,20 +59,6 @@ Partial Class frm2DFFt
         Me.btnLoadImage.TabIndex = 0
         Me.btnLoadImage.Text = "Load Image"
         Me.btnLoadImage.UseVisualStyleBackColor = True
-        '
-        'pltImage
-        '
-        Me.pltImage.BackColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.pltImage.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.pltImage.Location = New System.Drawing.Point(0, 0)
-        Me.pltImage.Name = "pltImage"
-        Me.pltImage.PanCursor = System.Windows.Forms.Cursors.Hand
-        Me.pltImage.Size = New System.Drawing.Size(435, 246)
-        Me.pltImage.TabIndex = 1
-        Me.pltImage.Text = "Image Plot"
-        Me.pltImage.ZoomHorizontalCursor = System.Windows.Forms.Cursors.SizeWE
-        Me.pltImage.ZoomRectangleCursor = System.Windows.Forms.Cursors.SizeNWSE
-        Me.pltImage.ZoomVerticalCursor = System.Windows.Forms.Cursors.SizeNS
         '
         'btnFFT
         '
@@ -101,7 +88,7 @@ Partial Class frm2DFFt
         'SplitContainer1.Panel1
         '
         Me.SplitContainer1.Panel1.AutoScroll = True
-        Me.SplitContainer1.Panel1.Controls.Add(Me.pltImage)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.pbImage)
         '
         'SplitContainer1.Panel2
         '
@@ -189,6 +176,16 @@ Partial Class frm2DFFt
         Me.chkRGB.Text = "RGB channels"
         Me.chkRGB.UseVisualStyleBackColor = True
         '
+        'pbImage
+        '
+        Me.pbImage.BackColor = System.Drawing.SystemColors.ButtonHighlight
+        Me.pbImage.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.pbImage.Location = New System.Drawing.Point(0, 0)
+        Me.pbImage.Name = "pbImage"
+        Me.pbImage.Size = New System.Drawing.Size(435, 246)
+        Me.pbImage.TabIndex = 0
+        Me.pbImage.TabStop = False
+        '
         'frm2DFFt
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
@@ -216,13 +213,13 @@ Partial Class frm2DFFt
         Me.splithorz.Panel2.ResumeLayout(False)
         CType(Me.splithorz, System.ComponentModel.ISupportInitialize).EndInit()
         Me.splithorz.ResumeLayout(False)
+        CType(Me.pbImage, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
 
     Friend WithEvents btnLoadImage As Windows.Forms.Button
-    Friend WithEvents pltImage As OxyPlot.WindowsForms.PlotView
     Friend WithEvents btnFFT As Windows.Forms.Button
     Friend WithEvents pbOutput1 As Windows.Forms.PictureBox
     Friend WithEvents SplitContainer1 As Windows.Forms.SplitContainer
@@ -232,4 +229,5 @@ Partial Class frm2DFFt
     Friend WithEvents btnInvFFT As Windows.Forms.Button
     Friend WithEvents pbInvFFT As Windows.Forms.PictureBox
     Friend WithEvents chkRGB As Windows.Forms.CheckBox
+    Friend WithEvents pbImage As Windows.Forms.PictureBox
 End Class

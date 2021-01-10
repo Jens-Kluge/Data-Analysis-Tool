@@ -67,7 +67,6 @@ Module modUtilities
 
         Dim ce As Excel.Range
         Dim ce1 As Excel.Range
-        Dim s As String
 
         If rg Is Nothing Then Exit Sub
 

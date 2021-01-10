@@ -358,6 +358,8 @@
   -->
   <ItemGroup>
     <AppDesigner Include="My Project\" />
+    <Compile Include="AuxFunctions.vb" />
+    <Compile Include="CWavelet.vb" />
     <Compile Include="ExcelRefedit.Designer.vb">
       <DependentUpon>ExcelRefedit.vb</DependentUpon>
     </Compile>
@@ -388,7 +390,6 @@
     <Compile Include="MainForm.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="modFFT.vb" />
     <Compile Include="modTest.vb" />
     <Compile Include="modUtilities.vb" />
     <Compile Include="Ribbon1.Designer.vb">
@@ -400,6 +401,8 @@
     <Compile Include="ThisAddIn.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="WaveletTests.vb" />
+    <Compile Include="WaveletTransform.vb" />
     <EmbeddedResource Include="ExcelRefedit.resx">
       <DependentUpon>ExcelRefedit.vb</DependentUpon>
     </EmbeddedResource>
