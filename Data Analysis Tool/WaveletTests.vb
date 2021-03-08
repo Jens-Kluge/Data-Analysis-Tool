@@ -48,7 +48,11 @@ Namespace Tests
             Dim filePath As String = "test1.csv"
             Dim delimiter As String = ","
             Dim sb As StringBuilder = New StringBuilder()
-            Dim TestSignalOne() As Double '= CreateSignal(SignalList.Doppler, 0, 1024)
+
+            Dim sg As New SignalGenerator()
+            Dim TestSignalOne() As Double = sg.Sawtooth
+
+            'CreateSignal(SignalList.Doppler, 0, 1024)
             Dim TestSignalTwo() As Double = New Double(TestSignalOne.Length) {}
             Dim Daublets As List(Of CWavelet) = CWavelet.WaveletConstructor.CreateAllDaubechies()
             Transform.Forward1D(TestSignalOne, TestSignalTwo, Daublets(1), 1)
@@ -72,7 +76,10 @@ Namespace Tests
             Dim SumError1 As Double = 0
             Dim SumError2 As Double = 0
             Dim SumError3 As Double = 0
-            'signal = CreateSignal(SignalList.Doppler, 0, Len)
+
+            Dim sg As New SignalGenerator
+            signal = sg.Sawtooth
+            'CreateSignal(SignalList.Doppler, 0, Len)
             For Each wavelet As CWavelet In wavelets
                 Transform.Forward1D(signal, signal2, wavelet, Level)
                 Transform.Inverse1D(signal2, signal2, wavelet, Level)

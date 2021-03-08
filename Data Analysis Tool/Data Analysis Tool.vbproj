@@ -378,6 +378,12 @@
     <Compile Include="frmCorr.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="frmWavelet.Designer.vb">
+      <DependentUpon>frmWavelet.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmWavelet.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmFFT.Designer.vb">
       <DependentUpon>frmFFT.vb</DependentUpon>
     </Compile>
@@ -398,6 +404,7 @@
     <Compile Include="Ribbon1.vb">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="SignalGenerator.vb" />
     <Compile Include="ThisAddIn.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -411,6 +418,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmCorr.resx">
       <DependentUpon>frmCorr.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmWavelet.resx">
+      <DependentUpon>frmWavelet.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmFFT.resx">
       <DependentUpon>frmFFT.vb</DependentUpon>
@@ -489,7 +499,7 @@
     <OptionStrict>Off</OptionStrict>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>Data Analysis Tool_TemporaryKey.pfx</ManifestKeyFile>

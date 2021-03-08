@@ -1,4 +1,5 @@
-﻿
+﻿'source: https://github.com/green-rail/WaveletTransform
+
 Imports System
 
 Namespace WaveletTransform
@@ -155,6 +156,7 @@ Namespace WaveletTransform
                     BufDet += wavelet.DecompositionHigh(k) * input(CircleInd)
                     j += 1
                     k += 1
+
                 End While
 
                 StartIndex += 2
@@ -178,6 +180,7 @@ Namespace WaveletTransform
             For i As Integer = 0 To Level - 1
                 output = StepForward(output, wavelet, i)
             Next
+
         End Sub
 
         Private Shared Function StepInverse(input() As Double, wavelet As CWavelet, CurrentLevel As Integer) As Double()
@@ -201,6 +204,7 @@ Namespace WaveletTransform
                 BuffLow(i + 1) = input(j)
                 BuffHi(i + 1) = input(Bound + j)
                 i += 2 : j += 1
+
             End While
 
             For i = 0 To (Bound << 1) - 1
@@ -215,6 +219,7 @@ Namespace WaveletTransform
                     End If
                     BufScal += wavelet.ReconstructionLow(k) * BuffLow(CircleInd) + wavelet.ReconstructionHigh(k) * BuffHi(CircleInd)
                     k += 1
+
                 Next
                 StartIndex += 1
                 Output(i) = BufScal
@@ -424,6 +429,7 @@ Namespace WaveletTransform
             Dim output() As Double = New Double(input.Length - Shift) {}
             Array.Copy(input, Shift, output, 0, input.Length - Shift)
             Return output
+
         End Function
 
         Public Shared Function GetAllDetail(input(,) As Double, currentLevel As Integer) As Double()

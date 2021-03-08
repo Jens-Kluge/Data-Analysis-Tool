@@ -34,12 +34,16 @@ Public Class frmCorr
 
         modUtilities.GetRange(rgOutput, ExcelRefedit3.txtAddress.Text, ok)
 
-        Me.Cursor = Cursors.WaitCursor
-        btnCorr.Enabled = False
         Try
 
             objInput1 = rginput1.Value2
             objInput2 = rgInput2.Value2
+            If objInput1 Is Nothing Or objInput2 Is Nothing Then Exit Sub
+
+
+            Me.Cursor = Cursors.WaitCursor
+            btnCorr.Enabled = False
+
             Dim dblInput1(objInput1.Length, 0) As Double
             Dim values1(objInput1.Length) As Double
             Dim dblInput2(objInput2.Length, 0) As Double

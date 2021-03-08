@@ -32,7 +32,7 @@ Partial Class MainForm
         '
         Me.ListBox1.FormattingEnabled = True
         Me.ListBox1.ItemHeight = 16
-        Me.ListBox1.Items.AddRange(New Object() {"1D Fourier Transform", "Crosscorrelation/Autocorrelation", "2D Fourier Transform"})
+        Me.ListBox1.Items.AddRange(New Object() {"1D Fourier Transform", "Crosscorrelation/Autocorrelation", "2D Fourier Transform", "1D Wavelet Transform"})
         Me.ListBox1.Location = New System.Drawing.Point(30, 37)
         Me.ListBox1.Name = "ListBox1"
         Me.ListBox1.Size = New System.Drawing.Size(206, 292)

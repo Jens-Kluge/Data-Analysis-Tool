@@ -162,7 +162,6 @@ Public Class frm2DFFt
             bmPhase = New Bitmap(bm.Width, bm.Height)
             Dim rect2 As New Rectangle(0, 0, bmPhase.Width, bmPhase.Height)
             Dim bmpData2 As System.Drawing.Imaging.BitmapData = bmPhase.LockBits(rect, Drawing.Imaging.ImageLockMode.ReadWrite, Imaging.PixelFormat.Format32bppArgb)
-
             maxval = in_vecarr.Enumerate().Max(Function(x As mnum.Complex32) Math.Abs(x.Phase))
 
             For i = 0 To bmPhase.Height - 1

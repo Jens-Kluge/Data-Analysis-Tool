@@ -587,6 +587,7 @@ Namespace WaveletTransform
                 -0.099219543576847216,
                 -0.012603967262037833,
                 0.0322231006040427}
+
                 Dim symlet_4 As CWavelet = New CWavelet("Symlet_4", sym4DecLow)
                 Symlets.Add(symlet_4)
 
